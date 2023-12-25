@@ -1,0 +1,92 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="500">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="11*"/>
+                <ColumnDefinition Width="96*"/>
+                <ColumnDefinition Width="263*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="10*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="24*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="387*"/>
+                <RowDefinition Height="8*"/>
+            </Grid.RowDefinitions>
+            <TabControl Margin="11,1,10,2" Background="White" OpacityMask="White" BorderBrush="White" Grid.ColumnSpan="7" Grid.Row="3">
+                <TabItem Header="Chat">
+                    <Grid Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="313*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="38*"/>
+                            <RowDefinition Height="0*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="420*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="46*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="3" Content="Send" Height="36" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Width="46" Click="Button_Click"/>
+                        <TextBox Name="tb_Message"  Grid.Column="1" Grid.Row="3" TextWrapping="Wrap" Height="36" VerticalAlignment="Center" Background="White" SelectionTextBrush="White">
+                            <TextBox.BorderBrush>
+                                <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute">
+                                    <GradientStop Color="#FFABADB3" Offset="0.05"/>
+                                    <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
+                                    <GradientStop Color="White" Offset="1"/>
+                                </LinearGradientBrush>
+                            </TextBox.BorderBrush>
+                        </TextBox>
+                        <TextBlock x:Name="tbChatText" Grid.Column="1" Grid.ColumnSpan="3" TextWrapping="Wrap" Background="White" Margin="0,1,0,0" Grid.Row="1"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Settings">
+                    <Grid Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50*"/>
+                            <ColumnDefinition Width="69*"/>
+                            <ColumnDefinition Width="94*"/>
+                            <ColumnDefinition Width="60*"/>
+                            <ColumnDefinition Width="196*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="19*"/>
+                            <RowDefinition Height="24*"/>
+                            <RowDefinition Height="21*"/>
+                            <RowDefinition Height="6*"/>
+                            <RowDefinition Height="37*"/>
+                            <RowDefinition Height="246*"/>
+                        </Grid.RowDefinitions>
+                        <Label Grid.Column="1" Content="IP address:" Grid.RowSpan="2" Margin="0,19,0,0" Width="69" Height="24"/>
+                        <CheckBox Grid.Column="2" Content="Server" Grid.Row="2" Margin="0,3,17,2" Width="77" Height="16"/>
+                        <TextBox Grid.Column="2" TextWrapping="Wrap" Text="192.168.0.1" Margin="0,19,20,0" Grid.RowSpan="2" Width="75" Height="24"/>
+                        <Button Grid.Column="3" Content="Join" Grid.RowSpan="3" Margin="0,19,0,0" Height="45" Width="60"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <Label Content="Disconnected" Grid.Row="1" VerticalAlignment="Center" Grid.Column="1" Margin="1,0,0,0" HorizontalAlignment="Left" Width="94" FontWeight="Bold"/>
+        </Grid>
+
+
+
+
+
+    </Grid>
+</Window>
