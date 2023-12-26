@@ -27,7 +27,6 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            tbChatText.Text += $"{tb_Message.Text} \n";
         }
     }
 }
