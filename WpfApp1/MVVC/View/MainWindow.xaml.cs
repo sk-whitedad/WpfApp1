@@ -33,15 +33,12 @@ namespace WpfApp1
             InitializeComponent();
             if (!(bool)(cbServer.IsChecked))
             {
-                lbStatusConnect.Content = "";
                 role = Role.Client;
             }
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
             if((sender as Button).Content == "Join")
             {
                 //подключение
@@ -57,7 +54,9 @@ namespace WpfApp1
         private void checkBox_Checked(object sender, RoutedEventArgs e)
         {
             lbStatusConnect.Visibility = Visibility.Hidden;
-            btJoin.Visibility = Visibility.Hidden; 
+            btJoin.Visibility = Visibility.Hidden;
+            tbName.Visibility = Visibility.Hidden;
+            lbName.Visibility = Visibility.Hidden;
             role = Role.Server;
         }
 
@@ -66,6 +65,8 @@ namespace WpfApp1
             lbStatusConnect.Visibility = Visibility.Visible;
             btJoin.Visibility = Visibility.Visible;
             lbStatusConnect.Content = "Status: disconnected";
+            tbName.Visibility = Visibility.Visible;
+            lbName.Visibility = Visibility.Visible;
             role = Role.Client;
         }
     }
