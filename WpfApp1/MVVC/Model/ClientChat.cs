@@ -7,18 +7,10 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.MVVC.Model
 {
-    public enum StatusClient
-    {
-        Connected,
-        Disconnected,
-        Eror
-    }
-
-    public class ClientChat
+     public class ClientChat
     {
         TcpClient? tcpClient { get; set; }
         IPAddress? localAddr { get; set; }
-        StatusClient statusClient;
 
         public ClientChat(string ip)
         {
@@ -35,19 +27,28 @@ namespace WpfApp1.MVVC.Model
             catch (SocketException ex)
             {
                 //обрабатываем ошибку подключения
-                statusClient = StatusClient.Eror;
             }
         }
 
         public async Task SendMessage(string str)
         {
-            if (tcpClient != null && str !="")
+            using TcpClient tcpClient = new TcpClient();
+            try
             {
-                NetworkStream stream = tcpClient.GetStream();
-                var requestData = Encoding.UTF8.GetBytes(str);
-                await stream.WriteAsync(requestData);
+                if (tcpClient != null && localAddr != null)
+                    await tcpClient.ConnectAsync(localAddr, 8888);
+                if (tcpClient != null && str != "")
+                {
+                    NetworkStream stream = tcpClient.GetStream();
+                    var requestData = Encoding.UTF8.GetBytes(str);
+                    await stream.WriteAsync(requestData);
+                }
             }
-
+            catch (SocketException ex)
+            {
+                //обрабатываем ошибку подключения
+            }
+ 
         }
 
 
@@ -57,16 +58,6 @@ namespace WpfApp1.MVVC.Model
             tcpClient.Close();      // закрываем подключение
         }
 
-        public StatusClient GetStatus()
-        {
-            if (tcpClient != null && tcpClient.Connected)
-                return StatusClient.Connected;
-            else if (tcpClient != null && !tcpClient.Connected)
-                return StatusClient.Disconnected;
-            else return StatusClient.Eror;
-        }
-
-
-    }
+     }
 }
 

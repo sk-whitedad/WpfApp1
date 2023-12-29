@@ -16,27 +16,34 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfApp1.MVVC.Model;
 
-enum Role
-{
-    Server,
-    Client
-}
-
 namespace WpfApp1
 {
+    enum Role { Server, Client }
+    public enum Status { Started, Stopped, Reception, Error}
+
+    public interface IGetStatusServer
+    {
+        public Status status { get; set; }
+        public string Message { get; set; }
+    }
+
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, IGetStatusServer
     {
         Role role;
         ServerChat server { get; set; }
         ClientChat client { get; set; }
+        public Status status { get; set; }
+        public string Message { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-            if (!(bool)(cbServer.IsChecked))
+            server = new ServerChat(tbIPaddr.Text, this);
+            client = new ClientChat(tbIPaddr.Text);
+            if (cbServer.IsChecked == false && cbServer.IsChecked == null)
             {
                 role = Role.Client;
             }
@@ -48,22 +55,12 @@ namespace WpfApp1
             if (((Button)sender as Button).Content.Equals("Connect"))
             {
                 //подключение клиента
-                if(client == null)
-                    client = new ClientChat(tbIPaddr.Text);
-
                 await client.Connected();
-
-                if (client.GetStatus() == StatusClient.Connected)
-                {
-                    lbStatusConnect.Content = $"Connected to server: {tbIPaddr.Text}";
+                    //bStatusConnect.Content = $"Connected to server:{tbIPaddr.Text}";
                     btJoin.Content = "Disconnect";
                     cbServer.IsEnabled = false;
                     tbIPaddr.IsEnabled = false;
                     tbName.IsEnabled = false;
-                }
-                else if (client.GetStatus() == StatusClient.Disconnected)
-                    lbStatusConnect.Content = $"Connection failed.";
-                else lbStatusConnect.Content = $"Not responding";
             }
             else if(((Button)sender as Button).Content.Equals("Disconnect"))
             {
@@ -78,12 +75,13 @@ namespace WpfApp1
             if (((Button)sender as Button).Content.Equals("Start"))
             {
                 //старт сервера
-                server = new ServerChat(tbIPaddr.Text);
-                await server.StartServer();
                 btJoin.Content = "Stop";
                 cbServer.IsEnabled = false;
                 tbIPaddr.IsEnabled = false;
-                lbStatusConnect.Content = $"Server started: {tbIPaddr.Text}";
+                if(status == Status.Started)
+                    lbStatusConnect.Content = $"Server started: {tbIPaddr.Text}";
+                await server.StartServer();
+
             }
             else if (((Button)sender as Button).Content.Equals("Stop"))
             {
@@ -92,7 +90,8 @@ namespace WpfApp1
                 btJoin.Content = "Start";
                 cbServer.IsEnabled = true;
                 tbIPaddr.IsEnabled = true;
-                lbStatusConnect.Content = $"Server stopped: {tbIPaddr.Text}";
+                if (status == Status.Stopped)
+                    lbStatusConnect.Content = $"Server stopped: {tbIPaddr.Text}";
             }
 
             if (((Button)sender as Button).Content.Equals("Send"))
@@ -122,7 +121,6 @@ namespace WpfApp1
             lbStatusConnect.Content = "";
         }
 
-
-
+     
     }
 }

@@ -11,22 +11,16 @@ using System.Net.Http;
 
 namespace WpfApp1.MVVC.Model
 {
-    public enum StatusServer
-    {
-        Started,
-        Stopped,
-        Waiting
-    }
-
     public class ServerChat
     {
         IPAddress? localAddr { get; set; }
         TcpListener? server { get; set; }
-        StatusServer statusServer;
+        public IGetStatusServer StatusServer { get; set; }
 
-        public ServerChat(string ip)
+        public ServerChat(string ip, IGetStatusServer statusServer)
         {
             localAddr = IPAddress.Parse(ip);
+            StatusServer = statusServer;
         }
         
          public async Task StartServer()
@@ -37,10 +31,10 @@ namespace WpfApp1.MVVC.Model
                 if (server != null)
                 {
                     server.Start();    // запускаем сервер
-                    statusServer = StatusServer.Started;
-                    while (true)
+                   while (true)
                     {
                         using var tcpClient = await server.AcceptTcpClientAsync();
+                        StatusServer.status = Status.Started;
                         var stream = tcpClient.GetStream();
                         byte[] responseData = new byte[1024];
                         int bytes = 0; // количество считанных байтов
@@ -48,32 +42,30 @@ namespace WpfApp1.MVVC.Model
                         // считываем данные 
                         do
                         {
+                            StatusServer.status = Status.Reception;
                             bytes = await stream.ReadAsync(responseData);
                             response.Append(Encoding.UTF8.GetString(responseData, 0, bytes));
                         }
                         while (bytes > 0);
                         // выводим отправленные клиентом данные
-                        var res = response;
+                        StatusServer.Message = response.ToString();
+                        
                     }
                 }
             }
             finally
             {
-                if(server != null)
+                StatusServer.status = Status.Stopped;
+                if (server != null)
                     server.Stop(); // останавливаем сервер
             }
         }
 
         public void StopServer()
         {
+            StatusServer.status = Status.Stopped;
             server.Stop(); // останавливаем сервер
         }
 
-        public StatusServer GetStatus()
-        {
-            if (server != null)
-                return statusServer;
-            else return StatusServer.Stopped;
-        }
     }
 }
