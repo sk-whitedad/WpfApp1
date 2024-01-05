@@ -17,11 +17,11 @@
             <StackPanel Background="Gray">
                 <TextBlock Text="Настройки:" VerticalAlignment="Bottom"/>
                 <TextBlock Text="IP адрес:" VerticalAlignment="Bottom"/>
-                <TextBox Background="LightGray" BorderBrush="Black"/>
+                <TextBox Background="Gray" BorderBrush="White"/>
                 <TextBlock Text="Порт:" VerticalAlignment="Bottom"/>
-                <TextBox  Background="LightGray" BorderBrush="Black"/>
-                <CheckBox Content="Сервер" VerticalAlignment="Bottom" BorderBrush="Black"  Background="LightGray"/>
-                <Button Content="Подключиться" Margin="0 5 0 0" BorderBrush="Black"  Background="LightGray"/>
+                <TextBox  Background="Gray" BorderBrush="AliceBlue"/>
+                <CheckBox Content="Сервер" VerticalAlignment="Bottom" BorderBrush="Gray"  Background="White"/>
+                <Button Content="Подключиться" Margin="0 5 0 0" BorderBrush="White"  Background="Gray"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Column="2" Margin="10 0 0 0">
