@@ -1,40 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Sockets;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using WpfApp1.MVVC.Model;
 
 namespace WpfApp1
 {
-    enum Role { Server, Client }
-    public enum Status { Started, Stopped, Reception, Error}
-
-     /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
- 
+        private Settings settings;
 
         public MainWindow()
         {
+            this.settings = new Settings();
             InitializeComponent();
+            settings.IpAddress = "127.0.0.1";
+            settings.Port = "8888";
+            this.DataContext = this.settings;
          }
 
-        private void SendMessage(object sender, RoutedEventArgs e)
+        private void SendMessage_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+        private void Connect_Click(object sender, RoutedEventArgs e)
+        {
+            tbChat.Text += $"IpAddress:{settings.IpAddress}; Port:{settings.Port}; IsServer:{settings.IsServer} --- {cbIsChecked.IsChecked}\n";
+        }
+           
     }
 }
