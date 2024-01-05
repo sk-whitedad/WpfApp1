@@ -5,64 +5,61 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="500">
-    <Grid x:Name="GridMain1">
+        Title="Chat" Height="350" Width="500"
+        MinWidth="300" Background="Gray">
+
+    <Grid Margin="3 0 3 3">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="10"/>
-            <RowDefinition />
-            <RowDefinition Height="24"/>
-        </Grid.RowDefinitions>
-        <TabControl Grid.Column="1" Grid.Row="1">
-            <TabItem Header="Chat">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="40"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="40"/>
-                    </Grid.RowDefinitions>
-                    <Button Click="Button_Click" Content="Send" Grid.Column="1" Grid.Row="2"/>
-                    <TextBox x:Name="tbMessageText"  Grid.Column="0" Grid.Row="2" Background="White"/>
-                    <TextBlock x:Name="tbChatText" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Background="White"/>
-                </Grid>
-                
-            </TabItem>
-            <TabItem Header="Sett">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="80"/>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="10"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition Height="25"/>
-                        <RowDefinition/>
-                        <RowDefinition Height="10"/>
-                    </Grid.RowDefinitions>
-                    <Label Content="IP address:" Grid.Column="1" Grid.Row="1"/>
-                    <TextBox x:Name="tbIPaddr" Text="127.0.0.1" Grid.Column="2" Grid.Row="1" Background="White"/>
-                    <CheckBox x:Name="cbServer" Unchecked="checkBox_Unchecked" Checked="checkBox_Checked" Content="Server" Grid.Column="2" Grid.Row="2"/>
-                    <Button x:Name="btJoin" Content="Connect" Click="Button_Click" Grid.Column="2" Grid.Row="4" />
-                    <Label x:Name="lbName" Content="Name:" Grid.Column="2" Grid.Row="3"/>
-                    <TextBox x:Name="tbName" Text="User1" Grid.Column="3" Grid.Row="3"/>
-                    <Label x:Name="lbStatusConnect" Content="Status: disconnected" Grid.Column="3" Grid.Row="4"/>
-                </Grid>
-            </TabItem>
-        </TabControl>
+        <Grid Grid.Column="0" Margin="0 0 1 0">
+            <StackPanel Background="Gray">
+                <TextBlock Text="Настройки:" VerticalAlignment="Bottom"/>
+                <TextBlock Text="IP адрес:" VerticalAlignment="Bottom"/>
+                <TextBox Background="LightGray" BorderBrush="Black"/>
+                <TextBlock Text="Порт:" VerticalAlignment="Bottom"/>
+                <TextBox  Background="LightGray" BorderBrush="Black"/>
+                <CheckBox Content="Сервер" VerticalAlignment="Bottom" BorderBrush="Black"  Background="LightGray"/>
+                <Button Content="Подключиться" Margin="0 5 0 0" BorderBrush="Black"  Background="LightGray"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="2" Margin="10 0 0 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Background="LightGray" Padding="5">
+                <TextBlock.Effect>
+                    <DropShadowEffect 
+                          Color="#5a5a5a" 
+                          Direction="200" 
+                          Opacity="0.5"/>
+                </TextBlock.Effect>
+            </TextBlock>
+            <Grid Grid.Row="2" Grid.Column="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Grid.Column="0" Background="LightGray" BorderBrush="LightGray" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True">
+                    <TextBox.Effect>
+                        <DropShadowEffect 
+                          Color="#5a5a5a" 
+                          Direction="200" 
+                          Opacity="0.5"/>
+                    </TextBox.Effect>
+                </TextBox>
+                <Button Grid.Column="1" Click="SendMessage" Background="LightGray" BorderBrush="Black">
+                    <Image Source="C:\Users\Comp\source\repos\WpfApp2\WpfApp2\Send_Icon1.png" Margin="3"/>
+                    <Button.Effect>
+                        <DropShadowEffect 
+                         Color="#5a5a5a" 
+                         Direction="200" 
+                         Opacity="0.5"/>
+                    </Button.Effect>
+                </Button>
+            </Grid>
+        </Grid>
     </Grid>
 </Window>
