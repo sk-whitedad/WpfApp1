@@ -9,21 +9,21 @@ using System.Windows;
 using System.Collections;
 using System.Net.Http;
 
-namespace WpfApp1.MVVC.Model
+namespace WpfApp1.Net
 {
     public class ServerChat
     {
         IPAddress? localAddr { get; set; }
         TcpListener? server { get; set; }
-        public IGetStatusServer StatusServer { get; set; }
+        StatusServer statusServer;
 
         public ServerChat(string ip, IGetStatusServer statusServer)
         {
             localAddr = IPAddress.Parse(ip);
             StatusServer = statusServer;
         }
-        
-         public async Task StartServer()
+
+        public async Task StartServer()
         {
             server = new TcpListener(localAddr, 8888);
             try
@@ -31,15 +31,15 @@ namespace WpfApp1.MVVC.Model
                 if (server != null)
                 {
                     server.Start();    // запускаем сервер
-                   while (true)
+                    statusServer = StatusServer.Started;
+                    while (true)
                     {
                         using var tcpClient = await server.AcceptTcpClientAsync();
                         StatusServer.status = Status.Started;
                         var stream = tcpClient.GetStream();
                         byte[] responseData = new byte[1024];
-                        int bytes = 0; // количество считанных байтов
-                        var response = new StringBuilder(); // для склеивания данных в строку
-                        // считываем данные 
+                        int bytes = 0; 
+                        var response = new StringBuilder();
                         do
                         {
                             StatusServer.status = Status.Reception;
@@ -48,15 +48,13 @@ namespace WpfApp1.MVVC.Model
                         }
                         while (bytes > 0);
                         // выводим отправленные клиентом данные
-                        StatusServer.Message = response.ToString();
-                        
+                        var res = response;
                     }
                 }
             }
             finally
             {
-                StatusServer.status = Status.Stopped;
-                if (server != null)
+                if(server != null)
                     server.Stop(); // останавливаем сервер
             }
         }
@@ -67,5 +65,11 @@ namespace WpfApp1.MVVC.Model
             server.Stop(); // останавливаем сервер
         }
 
+        public StatusServer GetStatus()
+        {
+            if (server != null)
+                return statusServer;
+            else return StatusServer.Stopped;
+        }
     }
 }

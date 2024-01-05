@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfApp1.MVVC.Model
+namespace WpfApp1.Net
 {
      public class ClientChat
     {
@@ -32,23 +32,13 @@ namespace WpfApp1.MVVC.Model
 
         public async Task SendMessage(string str)
         {
-            using TcpClient tcpClient = new TcpClient();
-            try
+            if (tcpClient != null && str !="")
             {
-                if (tcpClient != null && localAddr != null)
-                    await tcpClient.ConnectAsync(localAddr, 8888);
-                if (tcpClient != null && str != "")
-                {
-                    NetworkStream stream = tcpClient.GetStream();
-                    var requestData = Encoding.UTF8.GetBytes(str);
-                    await stream.WriteAsync(requestData);
-                }
+                NetworkStream stream = tcpClient.GetStream();
+                var requestData = Encoding.UTF8.GetBytes(str);
+                await stream.WriteAsync(requestData);
             }
-            catch (SocketException ex)
-            {
-                //обрабатываем ошибку подключения
-            }
- 
+
         }
 
 
