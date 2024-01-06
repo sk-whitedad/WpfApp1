@@ -7,9 +7,10 @@
         xmlns:local1="clr-namespace:WpfApp1.MVVC.Model"
         mc:Ignorable="d"
         Title="Chat" Height="350" Width="500"
-        MinWidth="300" Background="Gray">
+        MinWidth="300" Background="#4e6d92">
     <Window.Resources>
         <local1:ConverterCbToStr x:Key="converterCbToStr"/>
+        <local1:IPValidationRule x:Key="IPValidationRule"/>
     </Window.Resources>
     <Grid Margin="3 0 3 3">
         <Grid.ColumnDefinitions>
@@ -17,14 +18,23 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0" Margin="0 0 1 0">
-            <StackPanel Background="Gray">
-                <TextBlock Text="Настройки:" VerticalAlignment="Bottom"/>
-                <TextBlock Text="IP адрес:" VerticalAlignment="Bottom"/>
-                <TextBox x:Name="tbIpAddress" Text="{Binding Path=IpAddress, Mode=TwoWay}" Background="Gray" BorderBrush="White"/>
-                <TextBlock Text="Порт:" VerticalAlignment="Bottom"/>
-                <TextBox x:Name="tbPort" Text="{Binding Path=Port, Mode=TwoWay}"  Background="Gray" BorderBrush="AliceBlue"/>
-                <CheckBox x:Name="cbIsChecked" IsChecked="{Binding IsServer}" Content="Сервер" VerticalAlignment="Bottom" BorderBrush="Gray" IsThreeState="False"  Background="White"/>
-                <Button x:Name="btConnect" Content="{Binding ElementName=cbIsChecked, Path=IsChecked, Converter={StaticResource converterCbToStr}}" Click="Connect_Click" Margin="0 5 0 0" BorderBrush="White"  Background="Gray"/>
+            <StackPanel Background="#4e6d92">
+                <TextBlock Text="Настройки:" Foreground="#dcecff" VerticalAlignment="Bottom"/>
+                <TextBlock Text="IP адрес:" Foreground="#dcecff" VerticalAlignment="Bottom"/>
+                <TextBox x:Name="tbIpAddress" Foreground="White" Background="#3d5470" BorderBrush="White">
+                    <TextBox.Text>
+                        <Binding Path="IpAddress" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <local1:IPValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+                <TextBlock Text="Порт:" Foreground="#dcecff" VerticalAlignment="Bottom"/>
+                <TextBox x:Name="tbPort" Text="{Binding Path=Port, Mode=TwoWay}" Foreground="White" PreviewTextInput="PreviewPortInput"  Background="#3d5470" BorderBrush="AliceBlue"/>
+                <CheckBox x:Name="cbIsChecked" IsChecked="{Binding IsServer}" Foreground="White" Content="Сервер" VerticalAlignment="Bottom" BorderBrush="#3d5470" IsThreeState="False"  Background="White"/>
+                <Button x:Name="btConnect" Content="{Binding ElementName=cbIsChecked, Path=IsChecked, Converter={StaticResource converterCbToStr}}" Foreground="White" Click="Connect_Click" Margin="0 5 0 0" BorderBrush="White"  Background="#3d5470"/>
+
             </StackPanel>
         </Grid>
         <Grid Grid.Column="2" Margin="10 0 0 0">
@@ -32,7 +42,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="tbChat" Grid.Row="0" Grid.Column="0" Background="LightGray" Padding="5">
+            <TextBlock x:Name="tbChat" Grid.Row="0" Grid.Column="0" Background="#9aadc3" Padding="5">
                 <TextBlock.Effect>
                     <DropShadowEffect 
                           Color="#5a5a5a" 
@@ -45,7 +55,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
-                <TextBox x:Name="tbMessage" Grid.Column="0" Background="LightGray" BorderBrush="LightGray" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True">
+                <TextBox x:Name="tbMessage" Grid.Column="0" Background="#d3deeb" BorderBrush="#becde0" VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" AcceptsReturn="True">
                     <TextBox.Effect>
                         <DropShadowEffect 
                           Color="#5a5a5a" 
@@ -53,8 +63,8 @@
                           Opacity="0.5"/>
                     </TextBox.Effect>
                 </TextBox>
-                <Button x:Name="btSend" Grid.Column="1" Click="SendMessage_Click" Background="LightGray" BorderBrush="Black">
-                    <Image Source="C:\Users\Comp\source\repos\WpfApp2\WpfApp2\Send_Icon1.png" Margin="3"/>
+                <Button x:Name="btSend" Grid.Column="1" Click="SendMessage_Click" Background="#9aadc3" BorderBrush="#becde0">
+                    <Image Source="C:\Users\Comp\source\repos\WpfApp2\WpfApp2\Send_Icon3.png" Margin="3"/>
                     <Button.Effect>
                         <DropShadowEffect 
                          Color="#5a5a5a" 

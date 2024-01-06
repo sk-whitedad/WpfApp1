@@ -9,45 +9,19 @@ namespace WpfApp1.Net
 {
      public class ClientChat
     {
-        TcpClient? tcpClient { get; set; }
-        IPAddress? localAddr { get; set; }
-
-        public ClientChat(string ip)
+        TcpClient _client;
+        public ClientChat()
         {
-            localAddr = IPAddress.Parse(ip);
+            _client = new TcpClient();
         }
-        public async Task Connected()
+
+        public void ConnectToServer()
         {
-            using TcpClient tcpClient = new TcpClient();
-            try
+            if(!_client.Connected)
             {
-                if (tcpClient != null && localAddr != null)
-                   await tcpClient.ConnectAsync(localAddr, 8888);
-            }
-            catch (SocketException ex)
-            {
-                //обрабатываем ошибку подключения
+                _client.Connect("127.0.0.1", 8888);
             }
         }
-
-        public async Task SendMessage(string str)
-        {
-            if (tcpClient != null && str !="")
-            {
-                NetworkStream stream = tcpClient.GetStream();
-                var requestData = Encoding.UTF8.GetBytes(str);
-                await stream.WriteAsync(requestData);
-            }
-
-        }
-
-
-        public void Close()
-        {
-            if(tcpClient != null)
-            tcpClient.Close();      // закрываем подключение
-        }
-
      }
 }
 
