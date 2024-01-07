@@ -6,6 +6,8 @@ using System.Windows.Input;
 using WpfApp1.MVVC.Core;
 using WpfApp1.MVVC.Model;
 using WpfApp1.Net;
+using WpfApp1.Net.ChatClient;
+using WpfApp1.Net.ChatServer;
 
 namespace WpfApp1.MVVC.ViewModel
 {
@@ -27,6 +29,12 @@ namespace WpfApp1.MVVC.ViewModel
             get { return settings.IsServer; }
             set { settings.IsServer = value; NotifyPropertyChanged(nameof(IsServer)); }
         }
+        private string clientOrServer = "Клиент";
+
+
+
+
+
 
 
         //метод обработки команды нажатия на кнопку Старт/Подключение
@@ -35,10 +43,14 @@ namespace WpfApp1.MVVC.ViewModel
             if(IsServer)
             {
                 MessageBox.Show($"Сервер IP:{IpAddress} : Port:{Port}\nЗапущен!");
+                Client client = new Client(IpAddress, Port);
+                client.StartServer();
             }
             else
             {
                 MessageBox.Show($"Клиерт IP:{IpAddress} : Port:{Port}\nПодключается к серверу!");
+                Server server = new Server(IpAddress, Port);
+                server.ConnectToServer();
             }
         }
 
@@ -60,7 +72,6 @@ namespace WpfApp1.MVVC.ViewModel
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-  
-      
+        }
     }
 }
