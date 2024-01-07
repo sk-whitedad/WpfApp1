@@ -7,12 +7,12 @@ namespace WpfApp1
 {
     public partial class MainWindow : Window
     {
-        public static Settings settings {  get; set; }
+        private MainViewModel mainViewModel;
         public MainWindow()
         {
-            settings = new Settings { IpAddress = "127.0.0.1", Port = "8888" };
+            mainViewModel = new MainViewModel();
             InitializeComponent();
-            this.DataContext = settings;
+            this.DataContext = mainViewModel;
         }
 
          private void PreviewPortInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -21,12 +21,12 @@ namespace WpfApp1
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        public void ServerClientExecute(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        private void btSend_Click(object sender, RoutedEventArgs e)
         {
-            if (settings.IsServer)
-                MessageBox.Show("Запуск сервера");
-            else
-                MessageBox.Show("Запуск клиента");
+            tbChat.Text += $"IP адрес:{mainViewModel.IpAddress} / Порт:{mainViewModel.Port} / Сервер:{mainViewModel.IsServer}\n";
+            mainViewModel.IpAddress = "120.120.120.120";
+            tbChat.Text += $"IP адрес:{tbIpAddress.Text} / Порт:{mainViewModel.Port} / Сервер:{mainViewModel.IsServer}\n";
+
         }
     }
 }

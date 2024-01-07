@@ -24,7 +24,7 @@ namespace WpfApp1.Net
         {
             if (!_client.Connected)
             {
-                _client.Connect(IPAddress.Parse(MainWindow.settings.IpAddress), Int32.Parse(MainWindow.settings.Port));
+                //_client.Connect(IPAddress.Parse(MainWindow.settings.IpAddress), Int32.Parse(MainWindow.settings.Port));
             }
         }
     }

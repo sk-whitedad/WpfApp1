@@ -13,7 +13,7 @@ namespace WpfApp1.Net
         public static TcpListener _listener;
         public ServerChat()
         {
-            _listener = new TcpListener(IPAddress.Parse(MainWindow.settings.IpAddress), Int32.Parse(MainWindow.settings.Port));
+            //_listener = new TcpListener(IPAddress.Parse(MainWindow.settings.IpAddress), Int32.Parse(MainWindow.settings.Port));
         }
 
 

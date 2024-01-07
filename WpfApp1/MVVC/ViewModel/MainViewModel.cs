@@ -1,16 +1,66 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Input;
 using WpfApp1.MVVC.Core;
 using WpfApp1.MVVC.Model;
 using WpfApp1.Net;
 
 namespace WpfApp1.MVVC.ViewModel
 {
-    public class MainViewModel
+    public class MainViewModel: INotifyPropertyChanged
     {
-        public MainViewModel()
-        {
-            ServerClientCommand = new RoutedCommand("ServerClientCommand", typeof(MainWindow));
+        private Settings settings = DataWorker.GetSettings();
+        public string IpAddress 
+        {  
+            get { return settings.IpAddress; }
+            set { settings.IpAddress = value; NotifyPropertyChanged(nameof(IpAddress));}
         }
-        public static RoutedCommand ServerClientCommand { get; set; }
+        public string Port
+        {
+            get { return settings.Port; }
+            set { settings.Port = value; NotifyPropertyChanged(nameof(Port)); }
+        }
+        public bool IsServer
+        {
+            get { return settings.IsServer; }
+            set { settings.IsServer = value; NotifyPropertyChanged(nameof(IsServer)); }
+        }
+
+
+        //метод обработки команды нажатия на кнопку Старт/Подключение
+        public void StartConnectMethod()
+        {
+            if(IsServer)
+            {
+                MessageBox.Show($"Сервер IP:{IpAddress} : Port:{Port}\nЗапущен!");
+            }
+            else
+            {
+                MessageBox.Show($"Клиерт IP:{IpAddress} : Port:{Port}\nПодключается к серверу!");
+            }
+        }
+
+        //команда нажатия кнопки Старт/Подключение
+        private RelayCommand clickStartConnectButton;
+        public RelayCommand ClickStartConnectButton
+        {
+            get
+            {
+                return clickStartConnectButton ?? new RelayCommand(obj =>
+                {
+                    StartConnectMethod();
+                });
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+  
+      
     }
 }
