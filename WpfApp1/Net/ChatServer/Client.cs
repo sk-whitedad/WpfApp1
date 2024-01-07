@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace WpfApp1.Net.ChatClient
 {
@@ -18,16 +19,26 @@ namespace WpfApp1.Net.ChatClient
         }
 
 
-        public void StartServer()
+        public async Task StartServer()
         {
-            if (_listener != null)
+            try
             {
-                _listener.Start();
-                var client = _listener.AcceptTcpClient();
+                if (_listener != null)
+                {
+                    _listener.Start();    // запускаем сервер
+                    while (true)
+                    {
+                        // получаем подключение в виде TcpClient
+                        using var tcpClient = await _listener.AcceptTcpClientAsync();
+                        Console.WriteLine($"Входящее подключение: {tcpClient.Client.RemoteEndPoint}");
+                    }
+                }
+            }
+            finally
+            {
+                _listener.Stop(); // останавливаем сервер
             }
         }
-
-
     }
 }
 

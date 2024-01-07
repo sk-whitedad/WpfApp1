@@ -62,6 +62,11 @@
                         Content="{Binding ElementName=cbIsChecked, Path=IsChecked, Converter={StaticResource converterCbToStr}}" 
                         Margin="0 5 0 0" 
                         Style="{StaticResource LeftPanel}"/>
+                <TextBlock/>
+                <TextBlock Height="Auto"
+                           Style="{StaticResource LeftPanel}"
+                           Text="{Binding ClientOrServer, Mode=TwoWay}"
+                           />
             </StackPanel>
         </Grid>
         <Grid Grid.Column="2" Margin="10 0 0 0">

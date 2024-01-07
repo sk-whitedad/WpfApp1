@@ -29,26 +29,25 @@ namespace WpfApp1.MVVC.ViewModel
             get { return settings.IsServer; }
             set { settings.IsServer = value; NotifyPropertyChanged(nameof(IsServer)); }
         }
-        private string clientOrServer = "Клиент";
-
-
-
-
-
-
+        private string clientOrServer;
+        public string ClientOrServer
+        {
+            get { return clientOrServer; }
+            set { clientOrServer = value; NotifyPropertyChanged(nameof(ClientOrServer)); }
+        }
 
         //метод обработки команды нажатия на кнопку Старт/Подключение
-        public void StartConnectMethod()
+        public async void StartConnectMethod()
         {
             if(IsServer)
             {
-                MessageBox.Show($"Сервер IP:{IpAddress} : Port:{Port}\nЗапущен!");
+                ClientOrServer = "Сервер";
                 Client client = new Client(IpAddress, Port);
-                client.StartServer();
+                await client.StartServer();
             }
             else
             {
-                MessageBox.Show($"Клиерт IP:{IpAddress} : Port:{Port}\nПодключается к серверу!");
+                ClientOrServer = "Клиент";
                 Server server = new Server(IpAddress, Port);
                 server.ConnectToServer();
             }
