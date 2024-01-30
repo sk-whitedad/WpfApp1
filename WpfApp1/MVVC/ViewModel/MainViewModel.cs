@@ -1,19 +1,26 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Net;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using TcpServer.Net;
+using TcpServer;
 using WpfApp1.MVVC.Core;
 using WpfApp1.MVVC.Model;
 using WpfApp1.Net;
 using WpfApp1.Net.ChatClient;
 using WpfApp1.Net.ChatServer;
+using System.Windows.Interop;
 
 namespace WpfApp1.MVVC.ViewModel
 {
     public class MainViewModel: INotifyPropertyChanged
     {
-        Server server;
+        NetClient netClient;
+        NetServer netServer;
+        Contr contr;
+        ServerObj serverObj;
 
         private Settings settings = DataWorker.GetSettings();
         public string IpAddress 
@@ -58,14 +65,16 @@ namespace WpfApp1.MVVC.ViewModel
             if(IsServer)
             {
                 ClientOrServer = "Сервер";
-                Client client = new Client(IpAddress, Port);
-                await client.StartServer();
+                IPEndPoint endp = new IPEndPoint(IPAddress.Any, 8888);
+                contr = new Contr();
+                serverObj = contr.GetServer(endp);
+                serverObj.Start();
             }
             else
             {
                 ClientOrServer = "Клиент";
-                server = new Server(IpAddress, Port);
-                server.ConnectToServer();
+                netClient = new NetClient(IpAddress, Port);
+                netClient.ConnectToServer();
             }
         }
 
@@ -87,7 +96,7 @@ namespace WpfApp1.MVVC.ViewModel
         {
             if (!string.IsNullOrEmpty(StringMessage))
             {
-                await server.server.SendMessageAsync(StringMessage);
+                await serverObj.SendMessageAsync(StringMessage);
                 StringChat += $"{StringMessage}\n";
             }
         }

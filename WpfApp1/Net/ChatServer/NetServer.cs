@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace WpfApp1.Net.ChatClient
 {
-    public class Client
+    public class NetServer
     {
         public static TcpListener _listener;
         string IpAddress { get; set; }
         string Port { get; set; }
 
-        public Client(string ipAddress, string port)
+        public NetServer(string ipAddress, string port)
         {
             IpAddress = ipAddress;
             Port = port;
@@ -30,7 +30,6 @@ namespace WpfApp1.Net.ChatClient
                     {
                         // получаем подключение в виде TcpClient
                         using var tcpClient = await _listener.AcceptTcpClientAsync();
-                        Console.WriteLine($"Входящее подключение: {tcpClient.Client.RemoteEndPoint}");
                     }
                 }
             }

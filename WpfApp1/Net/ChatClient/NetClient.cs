@@ -6,13 +6,13 @@ using TcpServer.Net;
 
 namespace WpfApp1.Net.ChatServer
 {
-    public class Server
+    public class NetClient
     {
         public static Contr? contr;
         IPEndPoint endp;
         public ServerObj server;
 
-        public Server(string ipAddress, string port)
+        public NetClient(string ipAddress, string port)
         {
             endp = new IPEndPoint(IPAddress.Parse(ipAddress), Convert.ToInt32(port));
         }
