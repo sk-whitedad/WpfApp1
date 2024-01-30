@@ -74,7 +74,8 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="tbChat" Grid.Row="0" Grid.Column="0" Background="#9aadc3" Padding="5">
+            <TextBlock x:Name="tbChat" Grid.Row="0" Grid.Column="0" Background="#9aadc3" Padding="5" Text="{Binding StringChat}">
+                
                 <TextBlock.Effect>
                     <DropShadowEffect 
                           Color="#5a5a5a" 
@@ -88,6 +89,7 @@
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
                 <TextBox x:Name="tbMessage"
+                         Text="{Binding StringMessage}"
                          Grid.Column="0" 
                          Background="#d3deeb"
                          BorderBrush="#becde0" 
@@ -102,7 +104,7 @@
                     </TextBox.Effect>
                 </TextBox>
                 <Button x:Name="btSend" 
-                        Click="btSend_Click"
+                        Command="{Binding ClickSendMessageButton}"
                         Grid.Column="1" 
                         Background="#9aadc3"
                         BorderBrush="#becde0">

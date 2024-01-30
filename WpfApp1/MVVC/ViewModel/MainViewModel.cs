@@ -13,6 +13,8 @@ namespace WpfApp1.MVVC.ViewModel
 {
     public class MainViewModel: INotifyPropertyChanged
     {
+        Server server;
+
         private Settings settings = DataWorker.GetSettings();
         public string IpAddress 
         {  
@@ -36,6 +38,20 @@ namespace WpfApp1.MVVC.ViewModel
             set { clientOrServer = value; NotifyPropertyChanged(nameof(ClientOrServer)); }
         }
 
+        private string stringMessage;
+        public string StringMessage
+        {
+            get { return stringMessage; }
+            set { stringMessage = value; NotifyPropertyChanged(nameof(StringMessage)); }
+        }
+
+        private string stringChat;
+        public string StringChat
+        {
+            get { return stringChat; }
+            set { stringChat = value; NotifyPropertyChanged(nameof(StringChat)); }
+        }
+
         //метод обработки команды нажатия на кнопку Старт/Подключение
         public async void StartConnectMethod()
         {
@@ -48,7 +64,7 @@ namespace WpfApp1.MVVC.ViewModel
             else
             {
                 ClientOrServer = "Клиент";
-                Server server = new Server(IpAddress, Port);
+                server = new Server(IpAddress, Port);
                 server.ConnectToServer();
             }
         }
@@ -65,6 +81,34 @@ namespace WpfApp1.MVVC.ViewModel
                 });
             }
         }
+
+        //метод обработки команды нажатия на кнопку Старт/Подключение
+        public async void SendMessageButton()
+        {
+            if (!string.IsNullOrEmpty(StringMessage))
+            {
+                await server.server.SendMessageAsync(StringMessage);
+                StringChat += $"{StringMessage}\n";
+            }
+        }
+
+        //команда отправки сообщения кнопки Send
+        private RelayCommand clickSendMessageButton;
+        public RelayCommand ClickSendMessageButton
+        {
+            get
+            {
+                return clickSendMessageButton ?? new RelayCommand(obj =>
+                {
+                    SendMessageButton();
+                });
+            }
+        }
+
+
+
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

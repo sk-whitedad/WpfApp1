@@ -1,7 +1,10 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.MVVC.Model;
 using WpfApp1.MVVC.ViewModel;
+using WpfApp1.Net.ChatServer;
 
 namespace WpfApp1
 {
@@ -19,14 +22,6 @@ namespace WpfApp1
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
-        }
-
-        private void btSend_Click(object sender, RoutedEventArgs e)
-        {
-            tbChat.Text += $"IP адрес:{mainViewModel.IpAddress} / Порт:{mainViewModel.Port} / Сервер:{mainViewModel.IsServer}\n";
-            mainViewModel.IpAddress = "120.120.120.120";
-            tbChat.Text += $"IP адрес:{tbIpAddress.Text} / Порт:{mainViewModel.Port} / Сервер:{mainViewModel.IsServer}\n";
-
         }
     }
 }

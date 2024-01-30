@@ -7,4 +7,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\MyConsoleChat-1\Dop\MainProjectChat.csproj" />
+    <ProjectReference Include="..\..\MyConsoleChat-1\TcpClient\ClientTcp.csproj" />
+    <ProjectReference Include="..\..\MyConsoleChat-1\TcpServer\TcpServer.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,28 +1,34 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using TcpServer;
+using TcpServer.Net;
 
 namespace WpfApp1.Net.ChatServer
 {
     public class Server
     {
-        TcpClient _client;
-        string IpAddress { get; set; }
-        string Port { get; set; }
+        public static Contr? contr;
+        IPEndPoint endp;
+        public ServerObj server;
 
         public Server(string ipAddress, string port)
         {
-            IpAddress = ipAddress;
-            Port = port;
-            _client = new TcpClient();
+            endp = new IPEndPoint(IPAddress.Parse(ipAddress), Convert.ToInt32(port));
         }
 
-        public void ConnectToServer()
+        public async void ConnectToServer()
         {
-            if (!_client.Connected)
+            contr = new Contr();
+            server = contr.GetServer(endp);
+            server.Start();
+            while (true)
             {
-                _client.Connect(IPAddress.Parse(IpAddress), Int32.Parse(Port));
+                var msg = Console.ReadLine();
+                if (!string.IsNullOrEmpty(msg))
+                    await server.SendMessageAsync(msg);
             }
+
         }
     }
 }
