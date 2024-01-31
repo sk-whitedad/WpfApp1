@@ -8,17 +8,17 @@ using TcpServer.Net;
 using TcpServer;
 using WpfApp1.MVVC.Core;
 using WpfApp1.MVVC.Model;
-using WpfApp1.Net;
-using WpfApp1.Net.ChatClient;
-using WpfApp1.Net.ChatServer;
 using System.Windows.Interop;
+using ClientTcp.Net;
+using System;
+using Dop.Interfaces;
 
 namespace WpfApp1.MVVC.ViewModel
 {
-    public class MainViewModel: INotifyPropertyChanged
+    public class MainViewModel: INotifyPropertyChanged, IComm
     {
-        NetClient netClient;
-        NetServer netServer;
+        ServerObj server;
+        ClientObj client;
         Contr contr;
         ServerObj serverObj;
 
@@ -64,17 +64,15 @@ namespace WpfApp1.MVVC.ViewModel
         {
             if(IsServer)
             {
-                ClientOrServer = "Сервер";
-                IPEndPoint endp = new IPEndPoint(IPAddress.Any, 8888);
-                contr = new Contr();
-                serverObj = contr.GetServer(endp);
-                serverObj.Start();
+                IPEndPoint endp = new IPEndPoint(IPAddress.Any, Convert.ToInt32(Port));
+                server = new(endp, this);
+                server.Start();
             }
             else
             {
-                ClientOrServer = "Клиент";
-                netClient = new NetClient(IpAddress, Port);
-                netClient.ConnectToServer();
+                IPEndPoint endp = new IPEndPoint(IPAddress.Parse(IpAddress), Convert.ToInt32(Port));
+                client = new(endp, this);
+                await client.Connect();
             }
         }
 
@@ -96,8 +94,16 @@ namespace WpfApp1.MVVC.ViewModel
         {
             if (!string.IsNullOrEmpty(StringMessage))
             {
-                await serverObj.SendMessageAsync(StringMessage);
-                StringChat += $"{StringMessage}\n";
+                if (IsServer)
+                {
+                    await server.SendMessageAsync(StringMessage);
+                    StringChat += $"{StringMessage}\n";
+                }
+                else
+                {
+                    await client.SendMessageAsync(StringMessage);
+                    StringChat += $"{StringMessage}\n";
+                }
             }
         }
 
@@ -114,16 +120,16 @@ namespace WpfApp1.MVVC.ViewModel
             }
         }
 
-
-
-
-
-
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void Message(string msg)
+        {
+            StringChat += msg + "\n";
         }
     }
 }

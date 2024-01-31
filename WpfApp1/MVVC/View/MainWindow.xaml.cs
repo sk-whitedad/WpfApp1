@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using WpfApp1.MVVC.Model;
 using WpfApp1.MVVC.ViewModel;
-using WpfApp1.Net.ChatServer;
 
 namespace WpfApp1
 {
