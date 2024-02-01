@@ -12,6 +12,7 @@ using System.Windows.Interop;
 using ClientTcp.Net;
 using System;
 using Dop.Interfaces;
+using System.Windows.Controls;
 
 namespace WpfApp1.MVVC.ViewModel
 {
@@ -59,6 +60,14 @@ namespace WpfApp1.MVVC.ViewModel
             set { stringChat = value; NotifyPropertyChanged(nameof(StringChat)); }
         }
 
+        private ScrollViewer scrollChat;
+        public ScrollViewer ScrollChat
+        {
+            get { return scrollChat; }
+            set { scrollChat = value; NotifyPropertyChanged(nameof(ScrollChat)); }
+        }
+
+
         //метод обработки команды нажатия на кнопку Старт/Подключение
         public async void StartConnectMethod()
         {
@@ -96,13 +105,14 @@ namespace WpfApp1.MVVC.ViewModel
             {
                 if (IsServer)
                 {
-                    await server.SendMessageAsync(StringMessage);
                     StringChat += $"{StringMessage}\n";
+                    await server.SendMessageAsync(StringMessage);
                 }
                 else
                 {
-                    await client.SendMessageAsync(StringMessage);
                     StringChat += $"{StringMessage}\n";
+                    HandlerScrollingChat();
+                    await client.SendMessageAsync(StringMessage);
                 }
             }
         }
@@ -120,12 +130,43 @@ namespace WpfApp1.MVVC.ViewModel
             }
         }
 
+        public void HandlerScrollingChat()
+        {
+            ScrollChat.ScrollToEnd();
+        }
+
+        //команда скроллинга чата
+        private RelayCommand scrollingChat;
+        public RelayCommand ScrollingChat
+        {
+            get
+            {
+                return scrollingChat ?? new RelayCommand(obj =>
+                {
+                    HandlerScrollingChat();
+                });
+            }
+        }
+
+
+
+
+
+
+
+
+
+
         public event PropertyChangedEventHandler PropertyChanged;
         public void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
+
+
 
         public void Message(string msg)
         {

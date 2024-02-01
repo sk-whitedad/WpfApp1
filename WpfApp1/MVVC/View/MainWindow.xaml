@@ -74,15 +74,25 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="tbChat" Grid.Row="0" Grid.Column="0" Background="#9aadc3" Padding="5" Text="{Binding StringChat}">
+            <ScrollViewer x:Name="ScrollChat" VerticalScrollBarVisibility="Auto">
+                <TextBlock x:Name="tbChat"
+                       Grid.Row="0"
+                       Grid.Column="0"
+                       Background="#9aadc3"
+                       Padding="5"
+                       Text="{Binding StringChat}"
+                       TextWrapping="Wrap">
+                    
                 
-                <TextBlock.Effect>
-                    <DropShadowEffect 
+                    <TextBlock.Effect>
+                        <DropShadowEffect 
                           Color="#5a5a5a" 
                           Direction="200" 
                           Opacity="0.5"/>
-                </TextBlock.Effect>
-            </TextBlock>
+                    </TextBlock.Effect>
+                </TextBlock>
+
+            </ScrollViewer>
             <Grid Grid.Row="2" Grid.Column="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
